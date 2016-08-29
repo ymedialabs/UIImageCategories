@@ -1,5 +1,6 @@
 import UIKit
 import CoreImage
+import Accelerate
 
 extension UIImage {
     enum ResizeAlgo:String {
@@ -34,17 +35,54 @@ extension UIImage {
             return CGBitmapContextCreateImage(context).flatMap { UIImage(CGImage: $0) }
 
         case .CI:
-            let image = CIImage(self.CGImage)
+            let image = UIKit.CIImage(CGImage:self.CGImage!)
             
             let filter = CIFilter(name: "CILanczosScaleTransform")!
             filter.setValue(image, forKey: "inputImage")
-            filter.setValue(0.5, forKey: "inputScale")
+            filter.setValue(320/self.size.width, forKey: "inputScale")
             filter.setValue(1.0, forKey: "inputAspectRatio")
-            let outputImage = filter.valueForKey("outputImage") as! CIImage
+            let outputImage = filter.valueForKey("outputImage") as! UIKit.CIImage
             
             let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
-            let scaledImage = UIImage(CGImage: self.context.createCGImage(outputImage, fromRect: outputImage.extent()))
-
+            let scaledImage = UIImage(CGImage: context.createCGImage(outputImage, fromRect: outputImage.extent))
+            return scaledImage
+        case .VI:
+            let cgImage = self.CGImage!
+            
+            var format = vImage_CGImageFormat(bitsPerComponent: 8, bitsPerPixel: 32, colorSpace: nil,
+                                              bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.First.rawValue),
+                                              version: 0, decode: nil, renderingIntent: CGColorRenderingIntent.RenderingIntentDefault)
+            var sourceBuffer = vImage_Buffer()
+            defer {
+                sourceBuffer.data.dealloc(Int(sourceBuffer.height) * Int(sourceBuffer.height) * 4)
+            }
+            
+            var error = vImageBuffer_InitWithCGImage(&sourceBuffer, &format, nil, cgImage, numericCast(kvImageNoFlags))
+            guard error == kvImageNoError else { return nil }
+            
+            // create a destination buffer
+            let scale = self.scale
+            let destWidth = Int(size.width)
+            let destHeight = Int(size.height)
+            let bytesPerPixel = CGImageGetBitsPerPixel(self.CGImage) / 8
+            let destBytesPerRow = destWidth * bytesPerPixel
+            let destData = UnsafeMutablePointer<UInt8>.alloc(destHeight * destBytesPerRow)
+            defer {
+                destData.dealloc(destHeight * destBytesPerRow)
+            }
+            var destBuffer = vImage_Buffer(data: destData, height: vImagePixelCount(destHeight), width: vImagePixelCount(destWidth), rowBytes: destBytesPerRow)
+            
+            // scale the image
+            error = vImageScale_ARGB8888(&sourceBuffer, &destBuffer, nil, numericCast(kvImageHighQualityResampling))
+            guard error == kvImageNoError else { return nil }
+            
+            // create a CGImage from vImage_Buffer
+            let destCGImage = vImageCreateCGImageFromBuffer(&destBuffer, &format, nil, nil, numericCast(kvImageNoFlags), &error)?.takeRetainedValue()
+            guard error == kvImageNoError else { return nil }
+            
+            // create a UIImage
+            let scaledImage = destCGImage.flatMap { UIImage(CGImage: $0, scale: 0.0, orientation: self.imageOrientation) }
+            return scaledImage
         default:
             return nil
         }

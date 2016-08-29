@@ -16,7 +16,7 @@ class ExampleTests: XCTestCase {
     override func setUp() {
         super.setUp()
         self.images = [UIImage]()
-        for i in 1..<6 {
+        for i in 1..<7 {
             if let img = UIImage(named: "\(i).jpg") {
                 self.images.append(img)
             } else if let img = UIImage(named: "\(i).png") {
@@ -31,7 +31,7 @@ class ExampleTests: XCTestCase {
     
     func testExample() {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]        
-        for alg in ["UI", "CG"] {
+        for alg in ["UI", "CG", "CI", "VI" ] {
         for (i, img) in self.images.enumerate() {
             
             let path = "\(documentsPath)/\(i+1)_\(alg).png"
