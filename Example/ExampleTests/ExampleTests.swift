@@ -11,25 +11,46 @@ import XCTest
 
 class ExampleTests: XCTestCase {
     
+    var images : [UIImage]!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        self.images = [UIImage]()
+        for i in 1..<6 {
+            if let img = UIImage(named: "\(i).jpg") {
+                self.images.append(img)
+            } else if let img = UIImage(named: "\(i).png") {
+                self.images.append(img)
+            } 
+        }
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]        
+        for alg in ["UI", "CG"] {
+        for (i, img) in self.images.enumerate() {
+            
+            let path = "\(documentsPath)/\(i+1)_\(alg).png"
+            print("writing to: \(path)")
+            
+            let ar = img.size.width/img.size.height
+            
+            
+            if let algo = UIImage.ResizeAlgo(rawValue:alg), let imgOut = img.resize(algo , size: CGSize(width: 320, height:320/ar)) {
+            
+                let data = UIImagePNGRepresentation(imgOut)
+                try! data?.writeToFile("\(path)", options: .AtomicWrite)
+            }
+        }
+        }
     }
     
     func testPerformanceExample() {
-        // This is an example of a performance test case.
         self.measureBlock {
-            // Put the code you want to measure the time of here.
         }
     }
     

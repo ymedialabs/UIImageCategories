@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C642D201D743A8A00840D77 /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1B1D743A8A00840D77 /* 5.jpg */; };
+		4C642D211D743A8A00840D77 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1C1D743A8A00840D77 /* 2.jpg */; };
+		4C642D221D743A8A00840D77 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1D1D743A8A00840D77 /* 3.png */; };
+		4C642D231D743A8A00840D77 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1E1D743A8A00840D77 /* 4.jpg */; };
+		4C642D241D743A8A00840D77 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1F1D743A8A00840D77 /* 1.jpg */; };
+		4C642D2A1D743E6B00840D77 /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1B1D743A8A00840D77 /* 5.jpg */; };
+		4C642D2B1D743E6B00840D77 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1C1D743A8A00840D77 /* 2.jpg */; };
+		4C642D2C1D743E6B00840D77 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1D1D743A8A00840D77 /* 3.png */; };
+		4C642D2D1D743E6B00840D77 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1E1D743A8A00840D77 /* 4.jpg */; };
+		4C642D2E1D743E6B00840D77 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C642D1F1D743A8A00840D77 /* 1.jpg */; };
+		4C642D301D74489800840D77 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C642D2F1D74489800840D77 /* CoreImage.framework */; };
 		4C847D901D73465000CF0C99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C847D8F1D73465000CF0C99 /* AppDelegate.swift */; };
 		4C847D921D73465000CF0C99 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C847D911D73465000CF0C99 /* ViewController.swift */; };
 		4C847D951D73465000CF0C99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C847D931D73465000CF0C99 /* Main.storyboard */; };
@@ -27,6 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C642D1B1D743A8A00840D77 /* 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 5.jpg; sourceTree = "<group>"; };
+		4C642D1C1D743A8A00840D77 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
+		4C642D1D1D743A8A00840D77 /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
+		4C642D1E1D743A8A00840D77 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
+		4C642D1F1D743A8A00840D77 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		4C642D2F1D74489800840D77 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		4C847D8C1D73464F00CF0C99 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C847D8F1D73465000CF0C99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C847D911D73465000CF0C99 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C642D301D74489800840D77 /* CoreImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +76,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C642D1A1D743A8A00840D77 /* Reference */ = {
+			isa = PBXGroup;
+			children = (
+				4C642D1B1D743A8A00840D77 /* 5.jpg */,
+				4C642D1C1D743A8A00840D77 /* 2.jpg */,
+				4C642D1D1D743A8A00840D77 /* 3.png */,
+				4C642D1E1D743A8A00840D77 /* 4.jpg */,
+				4C642D1F1D743A8A00840D77 /* 1.jpg */,
+			);
+			name = Reference;
+			path = ../../Reference;
+			sourceTree = "<group>";
+		};
 		4C847D831D73464F00CF0C99 = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +117,7 @@
 				4C847D961D73465000CF0C99 /* Assets.xcassets */,
 				4C847D981D73465000CF0C99 /* LaunchScreen.storyboard */,
 				4C847D9B1D73465000CF0C99 /* Info.plist */,
+				4C642D2F1D74489800840D77 /* CoreImage.framework */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -93,6 +125,7 @@
 		4C847DA31D73465000CF0C99 /* ExampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				4C642D1A1D743A8A00840D77 /* Reference */,
 				4C847DA41D73465000CF0C99 /* ExampleTests.swift */,
 				4C847DA61D73465000CF0C99 /* Info.plist */,
 			);
@@ -188,6 +221,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C642D2A1D743E6B00840D77 /* 5.jpg in Resources */,
+				4C642D2B1D743E6B00840D77 /* 2.jpg in Resources */,
+				4C642D2C1D743E6B00840D77 /* 3.png in Resources */,
+				4C642D2D1D743E6B00840D77 /* 4.jpg in Resources */,
+				4C642D2E1D743E6B00840D77 /* 1.jpg in Resources */,
 				4C847D9A1D73465000CF0C99 /* LaunchScreen.storyboard in Resources */,
 				4C847D971D73465000CF0C99 /* Assets.xcassets in Resources */,
 				4C847D951D73465000CF0C99 /* Main.storyboard in Resources */,
@@ -198,6 +236,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C642D201D743A8A00840D77 /* 5.jpg in Resources */,
+				4C642D221D743A8A00840D77 /* 3.png in Resources */,
+				4C642D231D743A8A00840D77 /* 4.jpg in Resources */,
+				4C642D211D743A8A00840D77 /* 2.jpg in Resources */,
+				4C642D241D743A8A00840D77 /* 1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +441,7 @@
 				4C847DAB1D73465000CF0C99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C847DAC1D73465000CF0C99 /* Build configuration list for PBXNativeTarget "ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -406,6 +450,7 @@
 				4C847DAE1D73465000CF0C99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
