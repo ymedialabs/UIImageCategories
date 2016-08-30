@@ -16,9 +16,9 @@ extension UIImage {
             UIGraphicsBeginImageContextWithOptions(size, true, self.scale)
             self.drawInRect(CGRect(origin: CGPointZero, size: size))
             
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
-            return scaledImage
+            return resizedImage
         case .CG:
             let cgImage = self.CGImage
             let bitsPerComponent = CGImageGetBitsPerComponent(cgImage)
@@ -38,14 +38,13 @@ extension UIImage {
             let image = UIKit.CIImage(CGImage:self.CGImage!)
             
             let filter = CIFilter(name: "CILanczosScaleTransform")!
-            filter.setValue(image, forKey: "inputImage")
-            filter.setValue(320/self.size.width, forKey: "inputScale")
-            filter.setValue(1.0, forKey: "inputAspectRatio")
-            let outputImage = filter.valueForKey("outputImage") as! UIKit.CIImage
+            filter.setValue(image, forKey: kCIInputImageKey)
+            filter.setValue(size.width/self.size.width, forKey: kCIInputScaleKey)
+            let outputImage = filter.valueForKey(kCIOutputImageKey) as! UIKit.CIImage
             
             let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
-            let scaledImage = UIImage(CGImage: context.createCGImage(outputImage, fromRect: outputImage.extent))
-            return scaledImage
+            let resizedImage = UIImage(CGImage: context.createCGImage(outputImage, fromRect: outputImage.extent))
+            return resizedImage
         case .VI:
             let cgImage = self.CGImage!
             
@@ -81,10 +80,8 @@ extension UIImage {
             guard error == kvImageNoError else { return nil }
             
             // create a UIImage
-            let scaledImage = destCGImage.flatMap { UIImage(CGImage: $0, scale: 0.0, orientation: self.imageOrientation) }
-            return scaledImage
-        default:
-            return nil
+            let resizedImage = destCGImage.flatMap { UIImage(CGImage: $0, scale: 0.0, orientation: self.imageOrientation) }
+            return resizedImage
         }
     }
 }
