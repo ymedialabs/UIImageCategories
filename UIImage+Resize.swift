@@ -3,23 +3,17 @@ import CoreImage
 import Accelerate
 
 extension UIImage {
-    enum ResizeAlgo:String {
-        case UI = "UI"
-        case CG = "CG"
-        case CI = "CI"
-        case VI = "VI"
+    func resizeUI(size:CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, true, self.scale)
+        self.drawInRect(CGRect(origin: CGPointZero, size: size))
+        
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage
     }
     
-    func resize(algo: ResizeAlgo, size:CGSize, mode:UIViewContentMode = .ScaleAspectFit) -> UIImage? {
-        switch algo {
-        case .UI:
-            UIGraphicsBeginImageContextWithOptions(size, true, self.scale)
-            self.drawInRect(CGRect(origin: CGPointZero, size: size))
-            
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return resizedImage
-        case .CG:
+    func resizeCG(size:CGSize) -> UIImage? {
+        
             let cgImage = self.CGImage
             let bitsPerComponent = CGImageGetBitsPerComponent(cgImage)
             let bytesPerRow = CGImageGetBytesPerRow(cgImage)
@@ -33,8 +27,10 @@ extension UIImage {
             CGContextDrawImage(context, CGRect(origin: CGPointZero, size: size), cgImage)
             
             return CGBitmapContextCreateImage(context).flatMap { UIImage(CGImage: $0) }
-
-        case .CI:
+            
+    }
+    
+    func resizeCI(size:CGSize) -> UIImage? {
             let image = UIKit.CIImage(CGImage:self.CGImage!)
             
             let filter = CIFilter(name: "CILanczosScaleTransform")!
@@ -45,8 +41,10 @@ extension UIImage {
             let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
             let resizedImage = UIImage(CGImage: context.createCGImage(outputImage, fromRect: outputImage.extent))
             return resizedImage
-        case .VI:
-            let cgImage = self.CGImage!
+    }
+    
+    func resizeVI(size:CGSize) -> UIImage? {
+        let cgImage = self.CGImage!
             
             var format = vImage_CGImageFormat(bitsPerComponent: 8, bitsPerPixel: 32, colorSpace: nil,
                                               bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.First.rawValue),
@@ -82,6 +80,5 @@ extension UIImage {
             // create a UIImage
             let resizedImage = destCGImage.flatMap { UIImage(CGImage: $0, scale: 0.0, orientation: self.imageOrientation) }
             return resizedImage
-        }
     }
 }
