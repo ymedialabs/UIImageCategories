@@ -1,4 +1,6 @@
 #!zsh
+# script to read images and compare with reference images and generate a side_diff comparison image used in blog post
+# needs imagemagick installed
 
 ims=('1' '4' '5' '6')
 

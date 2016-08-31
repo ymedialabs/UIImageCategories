@@ -29,7 +29,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
                 self.topImage.image = image
                 
-                self.bottomImage.image = self.topImage.image?.resizeVI(CGSize(width: 50, height: 50))
+                self.bottomImage.image = try! self.topImage.image?.resize(CGSize(width: 100, height: 100))
             }
         })
     }

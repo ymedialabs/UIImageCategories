@@ -25,6 +25,7 @@
 		4C847D971D73465000CF0C99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C847D961D73465000CF0C99 /* Assets.xcassets */; };
 		4C847D9A1D73465000CF0C99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C847D981D73465000CF0C99 /* LaunchScreen.storyboard */; };
 		4C847DA51D73465000CF0C99 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C847DA41D73465000CF0C99 /* ExampleTests.swift */; };
+		4CA256A71D7759A1009EF32F /* UIImage+vImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA256A61D7759A1009EF32F /* UIImage+vImage.swift */; };
 		4CA2FA771D74B950008264B3 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2FA761D74B950008264B3 /* 6.jpg */; };
 		4CA2FA781D74BA8A008264B3 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2FA761D74B950008264B3 /* 6.jpg */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 		4C847DA01D73465000CF0C99 /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C847DA41D73465000CF0C99 /* ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTests.swift; sourceTree = "<group>"; };
 		4C847DA61D73465000CF0C99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CA256A61D7759A1009EF32F /* UIImage+vImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+vImage.swift"; path = "../../UIImage+vImage.swift"; sourceTree = "<group>"; };
 		4CA2FA761D74B950008264B3 /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 		4C847D8E1D73465000CF0C99 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				4CA256A61D7759A1009EF32F /* UIImage+vImage.swift */,
 				4C788F1A1D76A78B00F8D4D7 /* UIImageCategories.swift */,
 				4C642D1A1D743A8A00840D77 /* Reference */,
 				4C847D8F1D73465000CF0C99 /* AppDelegate.swift */,
@@ -249,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CA256A71D7759A1009EF32F /* UIImage+vImage.swift in Sources */,
 				4C847D921D73465000CF0C99 /* ViewController.swift in Sources */,
 				4C847D901D73465000CF0C99 /* AppDelegate.swift in Sources */,
 				4C788F1B1D76A78B00F8D4D7 /* UIImageCategories.swift in Sources */,
