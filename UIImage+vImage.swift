@@ -9,10 +9,11 @@
 import UIKit
 import Accelerate
 
-enum UIImageError : ErrorType {
+enum UIImageResizeError : ErrorType {
     case UnsupportedContentMode
 }
 
+//Not yet ready, please don't use this code. not tested.
 extension UIImage {
     func resize(newSize:CGSize, mode:UIViewContentMode = .ScaleToFill) throws -> UIImage? {
         
@@ -26,7 +27,7 @@ extension UIImage {
             ratio = min(horizontalRatio, verticalRatio)
         } else if mode == .ScaleToFill {
         } else {
-            throw UIImageError.UnsupportedContentMode
+            throw UIImageResizeError.UnsupportedContentMode
         }
         
         let newSize = CGSize(width:newSize.width * ratio, height:newSize.height * ratio)
@@ -67,9 +68,5 @@ extension UIImage {
         // create a UIImage
         let resizedImage = destCGImage.flatMap { UIImage(CGImage: $0, scale: 0.0, orientation: self.imageOrientation) }
         return resizedImage
-    }
-    
-    func crop(bounds:CGRect) -> UIImage? {
-        return nil
     }
 }
