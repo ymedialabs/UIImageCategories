@@ -12,7 +12,7 @@ import XCTest
 class ExampleTests: XCTestCase {
     
     var images : [UIImage]!
-    var documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+    var documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
     override func setUp() {
         super.setUp()
@@ -33,18 +33,18 @@ class ExampleTests: XCTestCase {
     func testResizeUI() {
         var totalTime : CFTimeInterval = 0
         var totalCount : Double = 0
-        for (i, img) in self.images.enumerate() {
+        for (i, img) in self.images.enumerated() {
             let path = "\(documentsPath)/\(i+1)_UI.png"
             print("writing to: \(path)")
             
             let ar = img.size.width/img.size.height
             let startTime = CACurrentMediaTime();
-            if let resizedImage = img.resizeUI(CGSize(width: 320, height:Int(round(320/ar)))) {
+            if let resizedImage = img.resizeUI(size: CGSize(width: 320, height:Int(round(320/ar)))) {
                 let endTime = CACurrentMediaTime();
                 totalTime += endTime - startTime
                 totalCount = totalCount + 1
-                let data = UIImagePNGRepresentation(resizedImage)
-                try! data?.writeToFile("\(path)", options: .AtomicWrite)
+                let data = resizedImage.pngData()
+                try! data?.write(to: URL(fileURLWithPath:path),options: .atomic)
             }
         }
         print("Avg Time UI: ", totalTime/totalCount)
@@ -54,8 +54,8 @@ class ExampleTests: XCTestCase {
         if let img = self.images.last {
             let ar = img.size.width/img.size.height
                             
-            self.measureBlock {
-                img.resizeUI(CGSize(width: 320, height:Int(round(320/ar))))
+            self.measure {
+                img.resizeUI(size: CGSize(width: 320, height:Int(round(320/ar))))
             }
         }
     }
@@ -63,18 +63,18 @@ class ExampleTests: XCTestCase {
     func testResizeCG() {
         var totalTime : CFTimeInterval = 0
         var totalCount : Double = 0
-        for (i, img) in self.images.enumerate() {
+        for (i, img) in self.images.enumerated() {
             let path = "\(documentsPath)/\(i+1)_CG.png"
             print("writing to: \(path)")
             
             let ar = img.size.width/img.size.height
             let startTime = CACurrentMediaTime();
-            if let resizedImage = img.resizeCG(CGSize(width: 320, height:Int(round(320/ar)))) {
+            if let resizedImage = img.resizeCG(size: CGSize(width: 320, height:Int(round(320/ar)))) {
                 let endTime = CACurrentMediaTime();
                 totalTime += endTime - startTime
                 totalCount = totalCount + 1
-                let data = UIImagePNGRepresentation(resizedImage)
-                try! data?.writeToFile("\(path)", options: .AtomicWrite)
+                let data = resizedImage.pngData()
+                try! data?.write(to: URL(fileURLWithPath:path),options: .atomic)
             }
         }
         print("Avg Time CG: ", totalTime/totalCount)
@@ -84,29 +84,28 @@ class ExampleTests: XCTestCase {
         if let img = self.images.last {
             let ar = img.size.width/img.size.height
 
-            self.measureBlock {
-                img.resizeCG(CGSize(width: 320, height:Int(round(320/ar))))
+            self.measure {
+                img.resizeCG(size: CGSize(width: 320, height:Int(round(320/ar))))
             }
         }
     }
     
-    
     func testResizeCI() {
         var totalTime : CFTimeInterval = 0
         var totalCount : Double = 0
-        for (i, img) in self.images.enumerate() {
+        for (i, img) in self.images.enumerated() {
                 
             let path = "\(documentsPath)/\(i+1)_CI.png"
             print("writing to: \(path)")
             
             let ar = img.size.width/img.size.height
             let startTime = CACurrentMediaTime();
-            if let resizedImage = img.resizeCI(CGSize(width: 320, height:Int(round(320/ar)))) {
+            if let resizedImage = img.resizeCI(size: CGSize(width: 320, height:Int(round(320/ar)))) {
                 let endTime = CACurrentMediaTime();
                 totalTime += endTime - startTime
                 totalCount = totalCount + 1
-                let data = UIImagePNGRepresentation(resizedImage)
-                try! data?.writeToFile("\(path)", options: .AtomicWrite)
+                let data = resizedImage.pngData()
+                try! data?.write(to: URL(fileURLWithPath:path),options: .atomic)
             }
         }
         print("Avg Time CI: ", totalTime/totalCount)
@@ -116,8 +115,8 @@ class ExampleTests: XCTestCase {
         if let img = self.images.last {
             let ar = img.size.width/img.size.height
             
-            self.measureBlock {
-                img.resizeCI(CGSize(width: 320, height:Int(round(320/ar))))
+            self.measure {
+                img.resizeCI(size: CGSize(width: 320, height:Int(round(320/ar))))
             }
         }
     }
@@ -125,18 +124,18 @@ class ExampleTests: XCTestCase {
     func testResizeVI() {
         var totalTime : CFTimeInterval = 0
         var totalCount : Double = 0
-        for (i, img) in self.images.enumerate() {
+        for (i, img) in self.images.enumerated() {
             let path = "\(documentsPath)/\(i+1)_VI.png"
             print("writing to: \(path)")
             
             let ar = img.size.width/img.size.height
             let startTime = CACurrentMediaTime();
-            if let resizedImage = img.resizeVI(CGSize(width: 320, height:Int(round(320/ar)))) {
+            if let resizedImage = img.resizeVI(size: CGSize(width: 320, height:Int(round(320/ar)))) {
                 let endTime = CACurrentMediaTime();
                 totalTime += endTime - startTime
                 totalCount = totalCount + 1
-                let data = UIImagePNGRepresentation(resizedImage)
-                try! data?.writeToFile("\(path)", options: .AtomicWrite)
+                let data = resizedImage.pngData()
+                try! data?.write(to: URL(fileURLWithPath:path),options: .atomic)
             }
         }
         print("Avg Time VI: ", totalTime/totalCount)
@@ -146,10 +145,10 @@ class ExampleTests: XCTestCase {
         if let img = self.images.last {
             let ar = img.size.width/img.size.height
             
-            self.measureBlock {
-                img.resizeVI(CGSize(width: 320, height:Int(round(320/ar))))
+            self.measure {
+                img.resizeVI(size: CGSize(width: 320, height:Int(round(320/ar))))
             }
         }
     }
-    
+ 
 }
