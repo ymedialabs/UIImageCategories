@@ -20,18 +20,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func cameraAction(sender: UIBarButtonItem) {
         let picker = UIImagePickerController()
         picker.delegate = self
-        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        self.navigationController?.presentViewController(picker, animated: true, completion: nil)
+        picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        self.navigationController?.present(picker, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: {
-            if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                self.topImage.image = image
-                
-                self.bottomImage.image = try! self.topImage.image?.resize(CGSize(width: 100, height: 100))
-            }
-        })
+    //https://stackoverflow.com/a/52987944/1067147
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let selectedImage = info[.originalImage] as? UIImage else {
+            print("Error: \(info)")
+            return
+        }
+        
+        self.topImage.image = selectedImage
+        
+        self.bottomImage.image = try! self.topImage.image?.resize(newSize: CGSize(width: 1000, height: 1000))
+        
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 

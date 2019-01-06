@@ -11,7 +11,7 @@ import XCTest
 class CategoryTests: XCTestCase {
 
     var images : [UIImage]!
-    var documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+    var documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
 
     
     override func setUp() {
@@ -28,30 +28,30 @@ class CategoryTests: XCTestCase {
     }
 
     func testLsc_AspectFit_Width2x() {
-        for (i, img) in self.images.enumerate() {
+        for (i, img) in self.images.enumerated() {
             
             let newSize = CGSize(width: img.size.height*2, height: img.size.height)
-            let resizedImage = try! img.resize(newSize, mode:.ScaleAspectFit)
+            let resizedImage = try! img.resize(newSize: newSize, mode:.scaleAspectFit)
             
             
             let path = "\(documentsPath)/\(i+1)_Width2x.png"  
             print("Writing to \(path)")
-            let data = UIImagePNGRepresentation(resizedImage!)
-            try! data?.writeToFile("\(path)", options: .AtomicWrite)
+            let data = resizedImage!.pngData()
+            try! data?.write(to: URL(fileURLWithPath:path),options: .atomic)
         }
     }
     
     func testLsc_AspectFit_Height2x() {
-        for (i, img) in self.images.enumerate() {
+        for (i, img) in self.images.enumerated() {
             
             let newSize = CGSize(width: img.size.width, height: img.size.width*2)
-            let resizedImage = try! img.resize(newSize, mode:.ScaleAspectFit)
+            let resizedImage = try! img.resize(newSize: newSize, mode:.scaleAspectFit)
             
             
             let path = "\(documentsPath)/\(i+1)_Height2x.png"
             print("Writing to \(path)")
-            let data = UIImagePNGRepresentation(resizedImage!)
-            try! data?.writeToFile("\(path)", options: .AtomicWrite)
+            let data = resizedImage!.pngData()
+            try! data?.write(to: URL(fileURLWithPath:path),options: .atomic)
         }
     }
 }

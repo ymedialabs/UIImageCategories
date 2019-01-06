@@ -5,57 +5,62 @@ import Accelerate
 extension UIImage {
     func resizeUI(size:CGSize) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, true, self.scale)
-        self.drawInRect(CGRect(origin: CGPointZero, size: size))
+        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
         
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return resizedImage
     }
 }
- 
+
 extension UIImage {
     func resizeCG(size:CGSize) -> UIImage? {
-        let bitsPerComponent = CGImageGetBitsPerComponent(self.CGImage)
-        let bytesPerRow = CGImageGetBytesPerRow(self.CGImage)
-        let colorSpace = CGImageGetColorSpace(self.CGImage)
-        let bitmapInfo = CGImageGetBitmapInfo(self.CGImage)
-        
-        let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), bitsPerComponent, bytesPerRow, colorSpace, bitmapInfo.rawValue)
-        CGContextSetInterpolationQuality(context, .High)
-        
-        CGContextDrawImage(context, CGRect(origin: CGPoint.zero, size: size), self.CGImage)
-        
-        return CGBitmapContextCreateImage(context).flatMap { UIImage(CGImage: $0) }        
+        if let cgImage = self.cgImage, let colorSpace = cgImage.colorSpace {
+            if let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: cgImage.bytesPerRow, space: colorSpace, bitmapInfo: cgImage.bitmapInfo.rawValue) {
+                context.interpolationQuality = .high
+                context.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: size))
+
+                return context.makeImage().flatMap { UIImage(cgImage: $0) }
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
     }
 }
- 
+
 extension UIImage {
     func resizeCI(size:CGSize) -> UIImage? {
         let scale = (Double)(size.width) / (Double)(self.size.width)
-            let image = UIKit.CIImage(CGImage:self.CGImage!)
+        let image = UIKit.CIImage(cgImage:self.cgImage!)
             
-            let filter = CIFilter(name: "CILanczosScaleTransform")!
-            filter.setValue(image, forKey: kCIInputImageKey)
-            filter.setValue(NSNumber(double:scale), forKey: kCIInputScaleKey)
-            filter.setValue(1.0, forKey:kCIInputAspectRatioKey)
-            let outputImage = filter.valueForKey(kCIOutputImageKey) as! UIKit.CIImage
-            
-            let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
-            let resizedImage = UIImage(CGImage: context.createCGImage(outputImage, fromRect: outputImage.extent))
+        let filter = CIFilter(name: "CILanczosScaleTransform")!
+        filter.setValue(image, forKey: kCIInputImageKey)
+        filter.setValue(NSNumber(value:scale), forKey: kCIInputScaleKey)
+        filter.setValue(1.0, forKey:kCIInputAspectRatioKey)
+        let outputImage = filter.value(forKey: kCIOutputImageKey) as! UIKit.CIImage
+        
+        let context = CIContext(options: [CIContextOption.useSoftwareRenderer: false])
+        if let contextImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            let resizedImage = UIImage(cgImage: contextImage)
             return resizedImage
+        } else {
+            return nil
+        }
     }
 }
- 
+
 extension UIImage {
     func resizeVI(size:CGSize) -> UIImage? {
-        let cgImage = self.CGImage!
+        let cgImage = self.cgImage!
             
             var format = vImage_CGImageFormat(bitsPerComponent: 8, bitsPerPixel: 32, colorSpace: nil,
-                                              bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.First.rawValue),
-                                              version: 0, decode: nil, renderingIntent: CGColorRenderingIntent.RenderingIntentDefault)
+                                              bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.first.rawValue),
+                                              version: 0, decode: nil, renderingIntent: CGColorRenderingIntent.defaultIntent)
             var sourceBuffer = vImage_Buffer()
             defer {
-                sourceBuffer.data.dealloc(Int(sourceBuffer.height) * Int(sourceBuffer.height) * 4)
+                sourceBuffer.data.deallocate()
             }
             
             var error = vImageBuffer_InitWithCGImage(&sourceBuffer, &format, nil, cgImage, numericCast(kvImageNoFlags))
@@ -65,11 +70,14 @@ extension UIImage {
             let scale = self.scale
             let destWidth = Int(size.width)
             let destHeight = Int(size.height)
-            let bytesPerPixel = CGImageGetBitsPerPixel(self.CGImage) / 8
+        var bytesPerPixel = 0
+        if let theCGImage = self.cgImage {
+            bytesPerPixel = theCGImage.bitsPerPixel / 8
+        }
             let destBytesPerRow = destWidth * bytesPerPixel
-            let destData = UnsafeMutablePointer<UInt8>.alloc(destHeight * destBytesPerRow)
+        let destData = UnsafeMutablePointer<UInt8>.allocate(capacity: destHeight * destBytesPerRow)
             defer {
-                destData.dealloc(destHeight * destBytesPerRow)
+                destData.deallocate()
             }
             var destBuffer = vImage_Buffer(data: destData, height: vImagePixelCount(destHeight), width: vImagePixelCount(destWidth), rowBytes: destBytesPerRow)
             
@@ -82,7 +90,7 @@ extension UIImage {
             guard error == kvImageNoError else { return nil }
             
             // create a UIImage
-            let resizedImage = destCGImage.flatMap { UIImage(CGImage: $0, scale: 0.0, orientation: self.imageOrientation) }
+        let resizedImage = destCGImage.flatMap { UIImage(cgImage: $0, scale: 0.0, orientation: self.imageOrientation) }
             return resizedImage
     }
 }
